@@ -53,9 +53,7 @@ function getCicleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-  const res = (value1 + value2) / 2;
-  if (res > 1.7976931348623157e+308) return Infinity;
-  return res;
+  return value1 / 2 + value2 / 2;
 }
 
 /**
@@ -112,8 +110,9 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  return Math.acos((x1 * x2 + y1 * y2) / (Math.sqrt(x1 ** 2 + y1 ** 2)
+  * Math.sqrt(x2 ** 2 + y2 ** 2)));
 }
 
 /**
@@ -183,7 +182,7 @@ function getParallelipidedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  return Math.round((num * pow) / pow);
+  return Math.round(num / 10 ** pow) * 10 ** pow;
 }
 /**
  * Returns true is the number is prime; otherwise false.
@@ -207,9 +206,8 @@ function isPrime(n) {
     if (n % i === 0) {
       return false;
     }
-    return true;
   }
-  return true;
+  return n > 1;
 }
 
 /**
