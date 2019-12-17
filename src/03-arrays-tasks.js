@@ -36,14 +36,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const arr = [];
-  if (len === 1) {
-    arr.push(1);
-  }
-  for (let i = 1; i < (len + 2); i += 2) {
-    arr.push(i);
-  }
-  return arr;
+  return new Array(len).fill().map((value, index) => index * 2 + 1);
 }
 
 
@@ -60,7 +53,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-  return arr + arr;
+  return arr.concat(arr);
 }
 
 
@@ -107,8 +100,8 @@ function getArrayOfStrings(arr) {
  *    [ 1, 2, 3, 4, 5, 'false' ]         => [ 1, 2, 3, 4, 5, 'false' ]
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
-function removeFalsyValues(/* arr */) {
-  throw new Error('Not implemented');
+function removeFalsyValues(arr) {
+  return arr.filter((el) => !!el); // returns truthy
 }
 
 /**
@@ -206,8 +199,8 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  return arr.map((el) => el.join(',')).join('\n');
 }
 
 /**
@@ -241,10 +234,10 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-  arr.reduce((acc, cur, index) => {
-    const newArr = [];
-    newArr[index] = acc + cur;
-    return newArr;
+  let sum = 0;
+  return arr.map((el) => {
+    sum += el;
+    return sum;
   });
 }
 
@@ -259,8 +252,8 @@ function getMovingSum(arr) {
  * [ 'a', 'b', 'c' , null ]  => [ "b", null ]
  * [ "a" ] => []
  */
-function getSecondItems(/* arr */) {
-
+function getSecondItems(arr) {
+  return arr.filter((el, i) => i % 2 !== 0);
 }
 
 
@@ -430,7 +423,14 @@ function toStringList(arr) {
  *    ]
  */
 function sortCitiesArray(arr) {
-  return arr.sort((item) => item.country).sort((item) => item.city);
+  return arr.sort((a, b) => {
+    if (a.country === b.country) {
+      if (a.city < b.city) return -1;
+      return 1;
+    }
+    if (a.country < b.country) return -1;
+    return 1;
+  });
 }
 
 /**
@@ -469,13 +469,11 @@ function getIdentityMatrix(/* n */) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  const arr = [];
-  let i = start;
-  if (i <= end) {
-    arr.push(i);
-    i += 1;
-  }
-  return arr;
+  let curVal = start - 1;
+  return new Array(end - start + 1).fill().map(() => {
+    curVal += 1;
+    return curVal;
+  });
 }
 
 /**
@@ -490,7 +488,7 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-  return arr.filter((el) => !arr.includes(el));
+  return Array.from(new Set(arr));
 }
 
 /**
@@ -541,13 +539,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(arr, childrenSelector) {
-  const strs = (element) => typeof element === 'string';
-  if (arr.some(strs)) {
-    childrenSelector();
-  }
-
-  return arr.flat();
+function selectMany(/* arr, childrenSelector */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -587,25 +580,18 @@ function getElementByIndexes(/* arr, indexes */) {
  *
  */
 function swapHeadAndTail(arr) {
-  let halfstart = [];
-  let halfend = [];
   if (arr.length === 1) {
     return arr;
   }
-  if (arr.length === 2) {
-    return arr.reverse();
-  }
-  if (arr.length === 3) {
-    return arr.reverse();
-  }
+
+  const halfstart = arr.slice(0, Math.floor(arr.length / 2));
+  const halfend = arr.slice(-Math.floor(arr.length / 2));
+
   if (arr.length % 2 === 0) {
-    halfstart = arr.slice(0, (arr.length / 2));
-    halfend = arr.slice(arr.length / 2);
-    return halfend + halfstart;
+    return halfend.concat(halfstart);
   }
-  halfstart = arr.slice(0, Math.floor(arr.length / 2));
-  halfend = arr.slice(Math.ceil(arr.length / 2));
-  return halfend + arr[Math.floor(arr.length / 2)] + halfstart;
+
+  return halfend.concat(arr[Math.floor(arr.length / 2)]).concat(halfstart);
 }
 
 
