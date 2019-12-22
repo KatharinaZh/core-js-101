@@ -27,8 +27,15 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  } if (num % 3 === 0) {
+    return 'Fizz';
+  } if (num % 5 === 0) {
+    return 'Buzz';
+  }
+  return num;
 }
 
 
@@ -159,8 +166,11 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const dist = Math.sqrt((circle.center.x - point.x) ** 2
+  + (circle.center.y - point.y) ** 2);
+  if (dist < circle.radius) return true;
+  return false;
 }
 
 
@@ -420,8 +430,21 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const res = new Array(m1.length);
+
+  for (let i = 0; i < res.length; i += 1) {
+    res[i] = new Array(m2[i].length);
+
+    for (let j = 0; j < m2.length; j += 1) {
+      res[i][j] = 0;
+
+      for (let g = 0; g < m2.length; g += 1) {
+        res[i][j] += m1[i][g] * m2[g][j];
+      }
+    }
+  }
+  return res.map((el) => el.filter((num) => !Number.isNaN(num)));
 }
 
 
